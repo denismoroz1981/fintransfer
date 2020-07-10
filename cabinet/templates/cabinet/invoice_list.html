@@ -1,0 +1,49 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+    {% if sent %}
+        <p> Е-мейл отправлен на {{ form.cleaned_data.email }}</p>
+    {% elif invoice_list %}
+            <p><label>Введите е-меил, куда нужно отослать: </label></p>
+            <form action="." method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <p><label>Выберите накладные для отсылки: </label></p>
+            <input type="submit" value="Отправить">
+            <input type="reset" value="Очистить">
+                <p></p>
+
+            <table cellpadding="7" border="2" width="100%">
+
+            {% for invoice in invoice_list %}
+            <tr>
+
+            <td> <input type="checkbox" name={{invoice.id}} value={{invoice.id}}> </td>
+            <!-- <td> {{ invoice.id }} </td> -->
+            <td> {{invoice.sap_entity_code }} </td>
+            <td> {{invoice.vendor_document_code}} </td>
+            <td> {{invoice.sap_vendor_code}} </td>
+            <td> {{invoice.sap_document_code}} </td>
+            <td> {{invoice.sap_document_code}} </td>
+            <td> {{invoice.sap_document_year}} </td>
+            <td> {{invoice.vendor_document_code}} </td>
+            <td> {{invoice.vendor_contract_number}} </td>
+            <td> {{invoice.doc_currency}} </td>
+            <td> {{invoice.doc_date}} </td>
+            <td> {{invoice.doc_duedate}} </td>
+            <td> {{invoice.doc_payment_block}} </td>
+            <td> {{invoice.doc_amount}} </td>
+            <td> {{context_object_name}} </td>
+
+            </tr>
+            {% endfor %}
+        </table>
+
+        </form>
+
+    {% else %}
+      <p>Накладных нет</p>
+    {% endif %}       
+
+{% endblock %}
