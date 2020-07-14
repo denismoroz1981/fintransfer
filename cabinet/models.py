@@ -4,6 +4,7 @@ import uuid
 from django.contrib.auth.models import User
 
 
+
 class UserInvoicesManager(models.Manager):
     def get_queryset(self):
         # return super().get_queryset().filter(....)
@@ -39,7 +40,7 @@ class Invoice(models.Model):
 
     # Metadata
     class Meta:
-        ordering = ["vendor_contract_number"]
+        ordering = ["i_vendor_code"]
 
     # Methods
     #def get_absolute_url(self):
@@ -52,11 +53,7 @@ class Invoice(models.Model):
         """
         String for representing the MyModelName object (in Admin site etc.)
         """
-        return '%s, %s' % (self.sap_vendor_code, self.vendor_document_code)
-
-
-
-
+        return '%s, %s, %s' % (self.i_vendor_code, self.i_vendor_name, self.vendor_document_code)
 
 class Entity(models.Model):
 
@@ -91,10 +88,9 @@ class Vendor(models.Model):
     """
     A typical class defining a model, derived from the Model class.
     """
-
     # Fields
     sap_vendor_code = models.CharField(primary_key=True, max_length=10, verbose_name="SAP номер поставщика", help_text="SAP номер поставщика")
-    vendor_edrpou = models.CharField(max_length=10, verbose_name="Балансовая единица", help_text="Балансовая единица")
+    vendor_edrpou = models.CharField(max_length=10, verbose_name="ЕДРПОУ", help_text="ЕДРПОУ")
     vendor_name = models.CharField(max_length=30,verbose_name="Наименование поставщика", help_text="Наименование поставщика")
     bank_limit = models.FloatField(verbose_name="Сумма лимита факторинга банка", help_text="Сумма лимита факторинга банка")
     red_zone = models.BooleanField(verbose_name="Красная зона", default=False, help_text="Красная зона")
@@ -182,3 +178,5 @@ class BKLimit(models.Model):
         String for representing the MyModelName object (in Admin site etc.)
         """
         return '%s, %s' % (self.business, self.sap_vendor_code)
+
+

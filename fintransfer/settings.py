@@ -128,4 +128,9 @@ STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = "denismoroz81@gmail.com"
+EMAIL_HOST_PASSWORD = "denis1981"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

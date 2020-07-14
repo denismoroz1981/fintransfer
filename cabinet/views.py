@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpRequest
 from .forms import EmailPostForm
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 
 from .models import Invoice, Entity, Vendor, BKLimit, Business
@@ -95,21 +97,23 @@ def send (request):
             send_ids = []
             get_list = request.POST.dict()
             get_list.pop("csrfmiddlewaretoken")
+            get_list.pop("email")
             for key in get_list:
                 send_ids.append(key)
 
-            queryset = Invoice.user_invoices.filter(id__in=send_ids)
-            send_invoices = get_object_or_404(queryset)
+            send_invoices = Invoice.user_invoices.filter(id__in=send_ids)
+            #send_invoices = get_object_or_404(queryset)
             cd = form.cleaned_data
             #sending form...
 
             subject = "Подтверждение КЗ по поставщику..."
-            message = "Подтвержденная КЗ:..."
-            send_mail(subject,message,'admin@myblog.com',[cd['email']])
+            html_message = render_to_string('cabinet/mail_template.html',{'invoice_list':send_invoices})
+            plain_message = strip_tags(html_message)
+            send_mail(subject,plain_message,'admin@myblog.com',[cd['email']],html_message=html_message)
             sent = True
 
 
-    invoice_list = Invoice.user_invoices.all()
+    invoice_list = Invoice.user_invoices.filter(i_vendor_code=request.user)
     form = EmailPostForm()
 
     return render(request,"cabinet/invoice_list.html",{'invoice_list': invoice_list, 'form':form,'sent':sent})

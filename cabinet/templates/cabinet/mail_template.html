@@ -1,22 +1,9 @@
-{% extends "base_generic.html" %}
 
-{% block content %}
 
-    {% if sent %}
-        <p> Е-мейл отправлен на {{ form.cd.email }}</p>
-    {% elif invoice_list %}
-            <p><label>Введите е-меил, куда нужно отослать: </label></p>
-            <form action="." method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <p><label>Выберите накладные для отсылки: </label></p>
-            <input type="submit" value="Отправить">
-            <input type="reset" value="Очистить">
-                <p></p>
-
+    {% if invoice_list %}
             <table cellpadding="7" border="2" width="100%">
             <tr>
-                <th>Выбор</th>
+
                 <th>ЕДРПОУ</th>
                 <th>Код в SAP</th>
                 <th>Наименование</th>
@@ -33,7 +20,7 @@
             {% for invoice in invoice_list %}
             <tr>
 
-            <td> <input type="checkbox" name={{invoice.id}} value={{invoice.id}}> </td>
+
             <!-- <td> {{ invoice.id }} </td> -->
             <td> {{invoice.i_vendor_code}} </td>
             <td> {{invoice.sap_vendor_code}} </td>
@@ -52,10 +39,8 @@
             {% endfor %}
         </table>
 
-        </form>
 
-    {% else %}
-      <p>Накладных нет</p>
-    {% endif %}       
 
-{% endblock %}
+    {% endif %}
+
+
