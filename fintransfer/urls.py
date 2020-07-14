@@ -15,14 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
 from django.urls import include
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 urlpatterns += [
      path('cabinet/', include('cabinet.urls')),
+]
+urlpatterns += [
+     path('account/', include('account.urls')),
 ]
 
 # Добавьте URL соотношения, чтобы перенаправить запросы с корневового URL, на URL приложения
