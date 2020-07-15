@@ -11,7 +11,7 @@
     <p>Your account doesn't have access to this page. To proceed,
     please login with an account that has access.</p>
   {% else %}
-    <p>Please login to see this page.</p>
+    <p>Введите ЕДРПОУ и пароль, чтобы войти:</p>
   {% endif %}
 {% endif %}
 
@@ -20,21 +20,24 @@
 <table>
 
 <tr>
-  <td>{{ form.username.label_tag }}</td>
+  <td>ЕДРПОУ </td>
   <td>{{ form.username }}</td>
 </tr>
 
 <tr>
-  <td>{{ form.password.label_tag }}</td>
+  <td>Пароль </td>
   <td>{{ form.password }}</td>
 </tr>
 </table>
 
-<input type="submit" value="login" />
+<input type="submit" value="Войти" />
 <input type="hidden" name="next" value="{{ next }}" />
 </form>
 
 {# Assumes you setup the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+<p></p>
+<p><a href="{% url 'password_reset' %}">Забыли пароль?</a></p>
+
+<p><a href="{% url 'register' %}">Незарегистрированы?</a></p>
 
 {% endblock %}

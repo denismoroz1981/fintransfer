@@ -24,14 +24,12 @@ urlpatterns = [
 urlpatterns += [
      path('cabinet/', include('cabinet.urls')),
 ]
-urlpatterns += [
-     path('account/', include('account.urls')),
-]
+
 
 # Добавьте URL соотношения, чтобы перенаправить запросы с корневового URL, на URL приложения
 from django.views.generic import RedirectView
 urlpatterns += [
-    path('', RedirectView.as_view(url='/cabinet/', permanent=True)),
+    path('', RedirectView.as_view(url='/cabinet/invoices', permanent=True)),
 ]
 
 # Используйте static() чтобы добавить соотношения для статических файлов

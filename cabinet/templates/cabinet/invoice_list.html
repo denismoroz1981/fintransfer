@@ -5,7 +5,7 @@
     {% if sent %}
         <p> Е-мейл отправлен на {{ form.cd.email }}</p>
     {% elif invoice_list %}
-            <p><label>Введите е-меил, куда нужно отослать: </label></p>
+            <p><label>Введите е-мейл, на который отослать выбранные накладные: </label></p>
             <form action="." method="POST">
             {% csrf_token %}
             {{ form.as_p }}

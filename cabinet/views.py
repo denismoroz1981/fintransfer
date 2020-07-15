@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpRequest
-from .forms import EmailPostForm
+from .forms import EmailPostForm, UserRegistrationForm
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -106,7 +106,7 @@ def send (request):
             cd = form.cleaned_data
             #sending form...
 
-            subject = "Подтверждение КЗ по поставщику..."
+            subject = "Подтверждение КЗ поставщика, ЕДРПОУ: "&str(request.user)
             html_message = render_to_string('cabinet/mail_template.html',{'invoice_list':send_invoices})
             plain_message = strip_tags(html_message)
             send_mail(subject,plain_message,'admin@myblog.com',[cd['email']],html_message=html_message)
@@ -117,3 +117,15 @@ def send (request):
     form = EmailPostForm()
 
     return render(request,"cabinet/invoice_list.html",{'invoice_list': invoice_list, 'form':form,'sent':sent})
+
+def register(request):
+    if request.method == 'POST':
+        user_form = UserRegistrationForm(request.POST)
+        if user_form.is_valid():
+            new_user = user_form.save(commit=False)
+            new_user.set_password(user_form.cleaned_data['password'])
+            new_user.save()
+            return  render(request, 'cabinet/register_done.html',{'new_user': new_user})
+    else:
+            user_form=UserRegistrationForm()
+    return render(request,"cabinet/register.html",{'user_form':user_form})
