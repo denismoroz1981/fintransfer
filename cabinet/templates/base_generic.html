@@ -1,25 +1,32 @@
 <!DOCTYPE html>
-
+{% load static %}
 <html lang="en">
 <head>
 
-  {% block title %}<title>Local Library</title>{% endblock %}
+  {% block title %}<title>FinTransfer</title>{% endblock %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="extensions/filter-control/bootstrap-table-filter-control.js"></script>
   <!-- Добавление дополнительного статического CSS файла -->
-  {% load static %}
-
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 
 <body>
 
   <div class="container-fluid">
+    <div class="row" id="title">
+        <div class="col-sm-12">
+            <div class="p-3 mb-2 bg-dark text-white">
+                <h3>FinTransfer портал</h3>
+            </div>
 
+        </div>
+    </div>
     <div class="row">
       <div class="col-sm-2">
       {% block sidebar %}
@@ -39,7 +46,8 @@
      {% endblock %}
       </div>
       <div class="col-sm-10 ">
-      {% block content %}{% endblock %}
+
+          {% block content %}{% endblock %}
       </div>
     </div>
 

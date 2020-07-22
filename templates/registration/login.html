@@ -3,7 +3,8 @@
 {% block content %}
 
 {% if form.errors %}
-  <p>Your username and password didn't match. Please try again.</p>
+<p></p>
+<p class="red">Ваш логин или пароль не соотвествуют. Попробуйте еще раз.</p>
 {% endif %}
 
 {% if next %}
@@ -11,6 +12,7 @@
     <p>Your account doesn't have access to this page. To proceed,
     please login with an account that has access.</p>
   {% else %}
+    <p></p>
     <p>Введите ЕДРПОУ и пароль, чтобы войти:</p>
   {% endif %}
 {% endif %}
@@ -20,12 +22,12 @@
 <table>
 
 <tr>
-  <td>ЕДРПОУ </td>
+  <td>ЕДРПОУ: </td>
   <td>{{ form.username }}</td>
 </tr>
 
 <tr>
-  <td>Пароль </td>
+  <td>Пароль: </td>
   <td>{{ form.password }}</td>
 </tr>
 </table>

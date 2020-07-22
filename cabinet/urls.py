@@ -11,6 +11,8 @@ urlpatterns = [
     #url(r'^filter/$', views.FilterListView.as_view(), name='filter'),
     #url(r'^filter/$', views.filter, name='filter'),
     url(r'^send/$', views.send, name='send'),
-    url(r'^register/$', views.register, name='register')
+    url(r'^register/$', views.register, name='register'),
+    url(r'^password_reset/$', views.password_reset_request, name='password_reset'),
+
 ]
 

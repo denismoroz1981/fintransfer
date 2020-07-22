@@ -3,3 +3,19 @@
     padding: 0;
     list-style: none;
 }
+
+h3 {
+    color: #FCA205;
+    font-family: 'Lobster';
+
+}
+
+#title {
+background-color: rgb(80, 80, 80);
+}
+
+.red {
+color: #8B0000;
+
+}
+

@@ -3,11 +3,12 @@
 {% block title %} Регистрация нового пользователя {% endblock %}
 
 {% block content %}
-    <h1>Зарегистрируйтесь</h1>
+<p></p>
+    <p>Заполните обязательные поля для регистрации:</p>
     <form action="." method="post">
         {{user_form.as_p}}
         {% csrf_token %}
-        <p><input type="submit" value="Зарегистрироваться"></p>
+        <input type="submit" value="Зарегистрироваться">
 
     </form>
 

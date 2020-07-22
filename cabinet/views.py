@@ -1,15 +1,52 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect
+from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponse, HttpRequest
 from .forms import EmailPostForm, UserRegistrationForm
-from django.core.mail import send_mail
+from django.core.mail import send_mail, BadHeaderError
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.models import User
+from django.db.models.query_utils import Q
+from django.utils.http import urlsafe_base64_encode
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
+from django.conf import settings
 
 from .models import Invoice, Entity, Vendor, BKLimit, Business
 # Create your views here.
 
-
+def password_reset_request(request):
+    if request.method == "POST":
+        isexist = False
+        password_reset_form = PasswordResetForm(request.POST)
+        if password_reset_form.is_valid():
+            email = password_reset_form.cleaned_data['email']
+            edrpou = request.POST['edrpou']
+            current_site = get_current_site(request)
+            associated_users = User.objects.filter(Q(email=email)&Q(username=edrpou))
+            if associated_users.exists():
+                isexist = True
+                for user in associated_users:
+                    subject = "Password Reset Requested"
+                    email_template_name = "registration/password_reset_email.html"
+                    c = {
+					"email": email,
+					'domain':current_site.domain,
+					'site_name': current_site.name,
+					"uid": urlsafe_base64_encode(force_bytes(user.pk)),
+					"user": edrpou,
+					'token': default_token_generator.make_token(user),
+					'protocol': 'http',
+					}
+                    email = render_to_string(email_template_name, c)
+                    try:
+                        send_mail(subject, email, settings.EMAIL_HOST_USER , [user.email], fail_silently=False)
+                    except BadHeaderError:
+                        return HttpResponse('Invalid header found.')
+        return render(request=request, template_name="registration/password_reset_done.html", context={"isexist":isexist})
+    password_reset_form = PasswordResetForm()
+    return render(request=request, template_name="registration/password_reset_form.html", context={"form":password_reset_form})
 
 def index(request):
     """
@@ -106,7 +143,7 @@ def send (request):
             cd = form.cleaned_data
             #sending form...
 
-            subject = "Подтверждение КЗ поставщика, ЕДРПОУ: "&str(request.user)
+            subject = "Подтверждение КЗ поставщика, ЕДРПОУ: "+str(request.user)
             html_message = render_to_string('cabinet/mail_template.html',{'invoice_list':send_invoices})
             plain_message = strip_tags(html_message)
             send_mail(subject,plain_message,'admin@myblog.com',[cd['email']],html_message=html_message)

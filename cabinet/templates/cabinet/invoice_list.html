@@ -1,9 +1,9 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-
+<p></p>
     {% if sent %}
-        <p> Е-мейл отправлен на {{ form.cd.email }}</p>
+        <p> Е-мейл отправлен. {{ form.cleaned_data.email }}</p>
     {% elif invoice_list %}
             <p><label>Введите е-мейл, на который отослать выбранные накладные: </label></p>
             <form action="." method="POST">
