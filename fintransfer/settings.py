@@ -20,12 +20,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'y)w9&n*7h1f9yw%-4cf#lm2s0b#ud$5)&3#^-eu1%%la^jou20'
+#SECRET_KEY = 'y)w9&n*7h1f9yw%-4cf#lm2s0b#ud$5)&3#^-eu1%%la^jou20'
+import os
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
+DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
 
-ALLOWED_HOSTS = ['127.0.0.1']
+#ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -75,6 +79,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'fintransfer.wsgi.application'
 
+ADMINS = (
+    ("Denys M","denismoroz81@gmail.com")
+)
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -139,3 +146,8 @@ EMAIL_HOST_USER = "denismoroz81@googlemail.com"
 EMAIL_HOST_PASSWORD = "denis1981"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+# Heroku: Update database configuration from $DATABASE_URL.
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
